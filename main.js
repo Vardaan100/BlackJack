@@ -1,3 +1,4 @@
+        //declaring variables to be used in the code
         var suits = ["Spades", "Hearts", "Diamonds", "Clubs"];
         var values = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
         var deck = new Array();
@@ -5,6 +6,8 @@
         var dealer = new Array();
         var currentPlayer = 0;
         
+        //creating a deck and pushing them in an array
+        //adding the suit of the card, the number or the face and the weight to the array
         function createDeck()
         {
             deck = new Array();
@@ -23,7 +26,8 @@
             }
         }
 
-
+        //creating players with param num being the number of players being added
+        //the last player will be the dealer
         function createPlayers(num)
         {
             players = new Array();
@@ -40,10 +44,11 @@
             var dealer = { Name: 'Dealer',ID: num+1 , Points: 0, Hand: hand };
             players.push(dealer);
 
-
+            //players will consist of the name, ID, points and the hand of that player at the moment
             console.log(players);
         }
 
+        //using DOM creating players in the HTML file the player being the dealer
         function createPlayersUI()
         {
             document.getElementById('players').innerHTML = '';
@@ -91,6 +96,7 @@
 
         }
 
+        //shuffling the cards for 1000 turns to randomize the location of each card
         function shuffle()
         {
             // for 1000 turns
@@ -106,6 +112,7 @@
             }
         }
 
+        //the function that starts the game being triggered by the start or the restart function
         function startblackjack()
         {
             document.getElementById('btnStart').value = 'Restart';
@@ -120,6 +127,7 @@
             document.getElementById('player_' + currentPlayer).classList.add('active');
         }
 
+        //dealing 2 cards to each player and dealing one to the dealer and updating the deck
         function dealHands()
         {
             // alternate handing cards to each player
@@ -147,12 +155,14 @@
             updateDeck();
         }
 
+        //renders the card to the respective player 
         function renderCard(card, player)
         {
             var hand = document.getElementById('hand_' + player);
             hand.appendChild(getCardUI(card));
         }
 
+        //getting the icon for each card 
         function getCardUI(card)
         {
             var el = document.createElement('div');
@@ -183,6 +193,7 @@
             return points;
         }
 
+        //updates the points of each user by calculating the total points 
         function updatePoints()
         {
             for (var i = 0 ; i < players.length; i++)
@@ -192,6 +203,7 @@
             }
         }
         
+
         function hitMe()
         {
             // pop a card from the deck to the current player
@@ -211,7 +223,7 @@
 
         function stand()
         {
-            // move on to next player, if any
+            // move on to next player
             // console.log(currentPlayer, players.length);
 
             if (currentPlayer != players.length-2) {
@@ -228,12 +240,14 @@
 
          }
 
+        //would be used to double the players bet and hit and move forward
         function double()
         {
             hitMe();
             stand();
         }
 
+        //game played by the dealer
         function dealerGame()
         {   
             var dealerIndex = players.length-1;
@@ -254,7 +268,8 @@
                 check();
             }
         }
-
+        
+        //ending turn of each player
         function endTurn()
         {
             console.log("EndTurn()");
@@ -271,9 +286,10 @@
                 score = players[i].Points;
             }
 
-            document.getElementById('status').innerHTML = 'Winner: Player ' + players[winner].ID;
-            document.getElementById("status").style.display = "inline-block";
-        }
+        //     document.getElementById('status').innerHTML = 'Winner: Player ' + players[winner].ID;
+        //     document.getElementById("status").style.display = "inline-block";
+        // 
+        }  
 
         function end()
         {
@@ -286,6 +302,7 @@
             dealerGame();
         }
 
+        //checking each player's points with that of the dealer
         function check()
         {
             for(var i=0; i< players.length-1; i++)
@@ -294,8 +311,8 @@
                     {
                         console.log("Player " + (i+1) + " Won");
                         console.log(players[i].Points);
-                        document.getElementById('status').innerHTML = 'Player: ' + players[currentPlayer].ID + ' LOST';
-                        document.getElementById('status').style.display = "inline-block";
+                        // document.getElementById('status').innerHTML = 'Player: ' + players[currentPlayer].ID + ' LOST';
+                        // document.getElementById('status').style.display = "inline-block";
                         endTurn();
                     }
                 else if (players[players.length-1].Points > 21)
@@ -312,11 +329,13 @@
             } 
         }
 
+        //updating the deck count for every time to keep track of the cards left in the deck
         function updateDeck()
         {
             document.getElementById('deckcount').innerHTML = deck.length;
         }
 
+        //adding eventListener to check on each action done by the user
         window.addEventListener('load', function(){
             // dealerGame();
             createDeck();
